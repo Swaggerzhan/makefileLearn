@@ -1,11 +1,20 @@
-chapter01 : A.o B.o Bind.o
-	g++ -o chapter01 A.o B.o Bind.o main.cc
+depends = main.cc A.o B.o Bind.o
+A_depends = include/A.h src/A.cc
+B_depends = include/B.h src/B.cc
+Bind_depends = include/Bind.h src/Bind.cc include/A.h include/B.h \
+	src/A.cc src/B.cc
 
-A.o 	: include/A.h src/A.cc
-	g++ -c include/A.h src/A.cc
+chapter01: $(depends)
+	g++ -o chapter01 $(depends)
+    
+A.o: $(A_depends)
+	g++ -c $(A_depends)
+    
+B.o: $(B_depends)
+	g++ -c $(B_depends)
+    
+Bind.o: $(Bind_depends)
+	g++ -c $(Bind_depends)
 
-B.o 	: include/B.h src/B.cc
-	g++ -c include/B.h src/B.cc
-
-Bind.o 	: A.o B.o include/Bind.h src/Bind.cc
-	g++ -c include/Bind.h src/Bind.cc
+clean:
+	rm A.o B.o Bind.o chapter01
