@@ -1,0 +1,21 @@
+depends = main.cc A.o B.o Bind.o
+A_depends = include/A.h src/A.cc
+B_depends = include/B.h src/B.cc
+Bind_depends = include/Bind.h src/Bind.cc include/A.h include/B.h \
+	src/A.cc src/B.cc
+
+chapter01: $(depends)
+	g++ -o chapter01 $(depends)
+    
+A.o: $(A_depends)
+	g++ -c $(A_depends)
+    
+B.o: $(B_depends)
+	g++ -c $(B_depends)
+    
+Bind.o: $(Bind_depends)
+	g++ -c $(Bind_depends)
+
+clean:
+	cat main.cc
+	-rm -f A.o B.o Bind.o

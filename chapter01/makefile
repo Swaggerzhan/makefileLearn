@@ -1,20 +1,27 @@
+vpath %.h include
+vpath %.cc src
 depends = main.cc A.o B.o Bind.o
-A_depends = include/A.h src/A.cc
-B_depends = include/B.h src/B.cc
-Bind_depends = include/Bind.h src/Bind.cc include/A.h include/B.h \
-	src/A.cc src/B.cc
+A_depends = A.h A.cc
+B_depends = B.h B.cc
+Bind_depends = Bind.h Bind.cc A.h B.h \
+	A.cc B.cc
 
 chapter01: $(depends)
 	g++ -o chapter01 $(depends)
     
 A.o: $(A_depends)
-	g++ -c $(A_depends)
+	g++ -c $^
     
 B.o: $(B_depends)
-	g++ -c $(B_depends)
+	g++ -c $^
     
 Bind.o: $(Bind_depends)
-	g++ -c $(Bind_depends)
+	g++ -c $^
 
+.PHONY : clean debug
 clean:
-	rm A.o B.o Bind.o chapter01
+	-rm -f A.o B.o Bind.o
+
+
+debug:
+	@echo $(depends)
